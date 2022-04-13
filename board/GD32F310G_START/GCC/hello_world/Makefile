@@ -46,7 +46,7 @@ ARCH_SRC =  \
         C_SOURCES += $(ARCH_SRC)
 
 CMSIS_SRC =  \
-        ${wildcard $(TOP_DIR)/osal/cmsis_os/*.c}
+        ${wildcard $(TOP_DIR)/osal/cmsis_os/*2.c}
         C_SOURCES += $(CMSIS_SRC)
 
 HAL_DRIVER_SRC =  \
@@ -54,40 +54,19 @@ HAL_DRIVER_SRC =  \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/mcu_init.c \
 		$(TOP_DIR)/examples/hello_world/hello_world.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/gpio.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/adc.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/i2c.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/usart.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/spi.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/stm32l4xx_it.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/stm32l4xx_hal_msp.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Hardware/BH1750/BH1750.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Hardware/LCD_ST7789/lcd_spi2_drv.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_adc.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_adc_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_dac.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_dac_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_i2c.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_i2c_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_uart.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_uart_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_spi.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_spi_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_tim.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_tim_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_rcc.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_rcc_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_flash.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_flash_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_flash_ramfunc.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_gpio.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_dma.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_dma_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_pwr.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_pwr_ex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_cortex.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/Src/stm32l4xx_hal_exti.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/system_stm32l4xx.c
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_dbg.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_dma.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_exti.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_fmc.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_gpio.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_misc.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_pmu.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_rcu.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_syscfg.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_timer.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_usart.c \
+		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/system_gd32f3x0.c
         C_SOURCES += $(HAL_DRIVER_SRC) 
 
 # ASM sources

@@ -6,7 +6,7 @@ uint8_t application_task_stk[APPLICATION_TASK_STK_SIZE];
 
 extern void application_entry(void *arg);
 
-__weak void application_entry(void *arg)
+__attribute__ ((__weak__)) void application_entry(void *arg)
 {
     while (1) {
         printf("This is a demo task,please use your task entry!\r\n");
