@@ -1,33 +1,25 @@
-/**
-  ******************************************************************************
-  * File Name          : USART.h
-  * Description        : This file provides code for the configuration
-  *                      of the USART instances.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __usart_H
-#define __usart_H
+/******************************************************************************
+* File:             usart.h
+*
+* Author:           iysheng@163.com  
+* Created:          04/14/22 
+* Description:      
+*****************************************************************************/
+#ifndef __USART_H__
+#define __USART_H__
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
+#include "gd32f3x0_libopt.h"
 
-/* Includes ------------------------------------------------------------------*/
-#include "main.h"
-
+/**
+  * @brief 板级 usart 硬件初始化
+  * @param void: 
+  * retval N/A.
+  */
+int board_usart_init(void);
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ usart_H */
+#endif /*__USART_H__ */

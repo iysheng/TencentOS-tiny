@@ -1,21 +1,26 @@
-/**
-  ******************************************************************************
-  * File Name          : gpio.c
-  * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+/******************************************************************************
+* File:             gpio.c
+*
+* Author:           iysheng@163.com  
+* Created:          04/14/22 
+*                   gpio hardware init
+*****************************************************************************/
 
-/* Includes ------------------------------------------------------------------*/
 #include "gpio.h"
+
+/**
+  * @brief GPIO inint
+  * @param void: 
+  * retval N/A.
+  */
+void board_gpio_init(void)
+{
+    rcu_periph_clock_enable(RCU_GPIOA);
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_9);
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_10);
+    gpio_af_set(GPIOA, GPIO_AF_1, GPIO_PIN_9);
+    gpio_af_set(GPIOA, GPIO_AF_1, GPIO_PIN_10);
+    gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, GPIO_PIN_1);
+    gpio_bit_set(GPIOA, GPIO_PIN_1);
+}
+
