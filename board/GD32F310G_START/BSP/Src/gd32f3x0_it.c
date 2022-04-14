@@ -137,23 +137,14 @@ void SysTick_Handler(void)
 void USART0_IRQHandler(void)
 {
     tos_knl_irq_enter();
-    if (SET == usart_flag_get(USART0, USART_FLAG_RBNE))
+    if (SET == usart_interrupt_flag_get(USART0, USART_INT_FLAG_RBNE))
     {
-/* 需要使用这个函数实现 shell */
-        usart_interrupt_disable(USART0, USART_INT_RBNE);
-        tos_shell_input_byte((uint8_t)usart_data_receive(USART0));
-        usart_interrupt_enable(USART0, USART_INT_RBNE);
-    }
-    if (SET == usart_flag_get(USART0, USART_FLAG_TC))
-    {
-        usart_flag_clear(USART0, USART_FLAG_TC);
-    }
-    if (SET == usart_flag_get(USART0, USART_FLAG_ORERR))
-    {
-        usart_interrupt_disable(USART0, USART_INT_RBNE);
         usart_flag_clear(USART0, USART_FLAG_ORERR);
         tos_shell_input_byte((uint8_t)usart_data_receive(USART0));
-        usart_interrupt_enable(USART0, USART_INT_RBNE);
+    }
+    if (SET == usart_interrupt_flag_get(USART0, USART_INT_FLAG_RBNE_ORERR))
+    {
+        usart_interrupt_flag_clear(USART0, USART_INT_FLAG_RBNE_ORERR);
     }
     tos_knl_irq_leave();
 }

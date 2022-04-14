@@ -33,7 +33,7 @@
 
 #define TOS_CFG_FAULT_BACKTRACE_EN      0u
 
-#define TOS_CFG_IDLE_TASK_STK_SIZE      512u
+#define TOS_CFG_IDLE_TASK_STK_SIZE      128u
 
 #define TOS_CFG_CPU_TICK_PER_SECOND     1000u
 

@@ -10,7 +10,6 @@ __attribute__ ((__weak__)) void application_entry(void *arg)
 {
     while (1) {
         gpio_bit_toggle(LED_GPIO_Port, LED_Pin);
-        //printf("This is a demo task,please use your task entry!\r\n");
         tos_task_delay(1000);
     }
 }

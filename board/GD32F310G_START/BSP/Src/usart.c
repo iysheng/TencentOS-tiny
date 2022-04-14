@@ -28,15 +28,16 @@
 int board_usart_init(void)
 {
     rcu_periph_clock_enable(RCU_USART0);
-    usart_clock_enable(USART0);
+    usart_deinit(RCU_USART0);
     usart_baudrate_set(USART0, 115200);
     usart_stop_bit_set(USART0, USART_STB_1BIT);
     usart_word_length_set(USART0, USART_WL_8BIT);
     usart_parity_config(USART0, USART_PM_NONE);
     usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
     usart_receive_config(USART0, USART_RECEIVE_ENABLE);
-    usart_interrupt_enable(USART0, USART_INT_RBNE | USART_INT_TC | USART_INT_TBE);
+    usart_interrupt_enable(USART0, USART_INT_RBNE);
     usart_enable(USART0);
+    nvic_irq_enable(USART0_IRQn, 0, 0);
 
     return 0;
 }
