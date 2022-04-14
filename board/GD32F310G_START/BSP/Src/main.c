@@ -1,6 +1,6 @@
 #include "mcu_init.h"
 
-#define APPLICATION_TASK_STK_SIZE       4096
+#define APPLICATION_TASK_STK_SIZE       0x100
 k_task_t application_task;
 uint8_t application_task_stk[APPLICATION_TASK_STK_SIZE];
 

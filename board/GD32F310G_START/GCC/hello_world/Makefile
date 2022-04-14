@@ -45,10 +45,6 @@ ARCH_SRC =  \
         ${wildcard $(TOP_DIR)/arch/arm/arm-v7m/common/*.c}
         C_SOURCES += $(ARCH_SRC)
 
-CMSIS_SRC =  \
-        ${wildcard $(TOP_DIR)/osal/cmsis_os/*2.c}
-        C_SOURCES += $(CMSIS_SRC)
-
 HAL_DRIVER_SRC =  \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/main.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/mcu_init.c \

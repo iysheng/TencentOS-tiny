@@ -5,13 +5,18 @@
  */
 
 /* Program Entry, set to mark it as "used" and avoid gc */
+ENTRY(Reset_Handler)
+FLASH_SIZE = 0x10000;
+SRAM_SIZE  = 0x2000;
+HEAP_SIZE  = 0x200;
+STACK_SIZE = 0x200;
+
 MEMORY
 {
-    CODE (rx) : ORIGIN = 0x08000000, LENGTH = 64k /* 64KB flash */
-    DATA (rw) : ORIGIN = 0x20000000, LENGTH =  64k /* 16KB sram */
+    CODE (rx) : ORIGIN = 0x08000000, LENGTH = FLASH_SIZE
+    DATA (rw) : ORIGIN = 0x20000000, LENGTH = SRAM_SIZE
+    HEAP (rw) : ORIGIN = 0x20000000 + SRAM_SIZE - HEAP_SIZE, LENGTH = HEAP_SIZE
 }
-ENTRY(Reset_Handler)
-_system_stack_size = 0x200;
 
 SECTIONS
 {
@@ -81,7 +86,7 @@ SECTIONS
 
     .stack : 
     {
-        . = . + _system_stack_size;
+        . = . + STACK_SIZE;
         . = ALIGN(4);
         _estack = .;
     } >DATA
@@ -109,10 +114,11 @@ SECTIONS
         end = __heap_start__;
         _end = end;
         __end = end;
+        . = . + HEAP_SIZE;
         /* . = . + Min_Heap_Size; */
         __heap_end__ = .;
         __HeapLimit = __heap_end__;
-    } > DATA
+    } > HEAP
 
     /* Stabs debugging sections.  */
     .stab          0 : { *(.stab) }
