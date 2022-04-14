@@ -21,11 +21,11 @@ TARGET = TencentOS_tiny
 # building variables
 ######################################
 # debug build?
-DEBUG = 1
+DEBUG = 0
 # optimization
-OPT = -O0
+OPT = -O2
 
-TOP_DIR = ../../../../
+TOP_DIR = ../../../..
 #######################################
 # paths
 #######################################
@@ -71,7 +71,7 @@ HAL_DRIVER_SRC =  \
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32l431xx.s \
+$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/Source/GCC/startup_gd32f3x0.s
 
 ASM_SOURCES_S =  \
 $(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc/port_s.S
@@ -162,7 +162,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32L431RCTx_FLASH.ld
+LDSCRIPT = gd32f310_flash.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
