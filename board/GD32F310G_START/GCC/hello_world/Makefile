@@ -51,6 +51,7 @@ HAL_DRIVER_SRC =  \
 		$(TOP_DIR)/examples/hello_world/hello_world.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/gpio.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/usart.c \
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/Source/system_gd32f3x0.c \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_dbg.c \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_dma.c \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_exti.c \
@@ -61,8 +62,7 @@ HAL_DRIVER_SRC =  \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_rcu.c \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_syscfg.c \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_timer.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_usart.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/system_gd32f3x0.c
+		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_usart.c
         C_SOURCES += $(HAL_DRIVER_SRC) 
 
 # ASM sources
