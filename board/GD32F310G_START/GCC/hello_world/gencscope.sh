@@ -7,6 +7,7 @@ OSALDIR=$TOPDIR/osal
 ARCHDIR=$TOPDIR/arch/arm/arm-v7m/common
 ARCHDIR1=$TOPDIR/arch/arm/arm-v7m/cortex-m4
 VENORDIR=$TOPDIR/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library
+COMPONENTSDIR=$TOPDIR/components/shell
 
 
 fd -e c -e h -e s -e S . $BOARDDIR > cscope.files
@@ -16,5 +17,6 @@ fd -e c -e h -e s -e S . $ARCHDIR >> cscope.files
 fd -e c -e h -e s -e S . $ARCHDIR1 >> cscope.files
 fd -e c -e h -e s -e S . $VENORDIR >> cscope.files
 fd -e c -e h -e s -e S . $STARTFILE >> cscope.files
+fd -e c -e h -e s -e S . $COMPONENTSDIR >> cscope.files
 
 cscope -bqR

@@ -21,7 +21,7 @@ TARGET = TencentOS_tiny
 # building variables
 ######################################
 # debug build?
-DEBUG = 0
+DEBUG = 1
 # optimization
 OPT = -O2
 
@@ -48,7 +48,7 @@ ARCH_SRC =  \
 HAL_DRIVER_SRC =  \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/main.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/mcu_init.c \
-		$(TOP_DIR)/examples/hello_world/hello_world.c \
+		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/gd32f3x0_it.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/gpio.c \
 		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/usart.c \
 		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/Source/system_gd32f3x0.c \
@@ -72,6 +72,10 @@ $(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/So
 ASM_SOURCES_S =  \
 $(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc/port_s.S
 
+COMPONENTS_SRC = \
+		$(TOP_DIR)/components/shell/tos_shell.c \
+		$(TOP_DIR)/components/shell/tos_shell_commands.c
+        C_SOURCES += $(COMPONENTS_SRC) 
 
 #######################################
 # binaries
@@ -140,6 +144,10 @@ HAL_DRIVER_INC =  \
 		-I $(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Include
 C_INCLUDES += $(HAL_DRIVER_INC)
 
+COMPONENTS_INC = \
+		-I $(TOP_DIR)/components/shell/include
+C_INCLUDES += $(COMPONENTS_INC)
+
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
@@ -199,6 +207,7 @@ $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	$(BIN) $< $@	
+	@cp $@ ./$(notdir $@)
 	
 $(BUILD_DIR):
 	mkdir $@		

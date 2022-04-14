@@ -34,7 +34,7 @@ OF SUCH DAMAGE.
 
 #include "gd32f3x0_it.h"
 #include "tos_k.h"
-//#include "tos_shell.h"
+#include "tos_shell.h"
 
 /*!
     \brief      this function handles NMI exception
@@ -137,19 +137,23 @@ void SysTick_Handler(void)
 void USART0_IRQHandler(void)
 {
     tos_knl_irq_enter();
+    if (SET == usart_flag_get(USART0, USART_FLAG_RBNE))
+    {
+/* 需要使用这个函数实现 shell */
+        usart_interrupt_disable(USART0, USART_INT_RBNE);
+        tos_shell_input_byte((uint8_t)usart_data_receive(USART0));
+        usart_interrupt_enable(USART0, USART_INT_RBNE);
+    }
     if (SET == usart_flag_get(USART0, USART_FLAG_TC))
     {
         usart_flag_clear(USART0, USART_FLAG_TC);
     }
-    else if (SET == usart_flag_get(USART0, USART_FLAG_TBE))
+    if (SET == usart_flag_get(USART0, USART_FLAG_ORERR))
     {
-    }
-    else if (SET == usart_flag_get(USART0, USART_FLAG_RBNE))
-    {
-/* 需要使用这个函数实现 shell */
-#if 0
-        tos_shell_input_byte(shell_data);
-#endif
+        usart_interrupt_disable(USART0, USART_INT_RBNE);
+        usart_flag_clear(USART0, USART_FLAG_ORERR);
+        tos_shell_input_byte((uint8_t)usart_data_receive(USART0));
+        usart_interrupt_enable(USART0, USART_INT_RBNE);
     }
     tos_knl_irq_leave();
 }

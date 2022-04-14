@@ -22,7 +22,7 @@
 
 /**
   * @brief 板级 usart 硬件初始化
-  * @param void: 
+  * @param void:
   * retval N/A.
   */
 int board_usart_init(void)
@@ -34,7 +34,7 @@ int board_usart_init(void)
     usart_word_length_set(USART0, USART_WL_8BIT);
     usart_parity_config(USART0, USART_PM_NONE);
     usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
-    usart_receive_config(USART0, USART_TRANSMIT_ENABLE);
+    usart_receive_config(USART0, USART_RECEIVE_ENABLE);
     usart_interrupt_enable(USART0, USART_INT_RBNE | USART_INT_TC | USART_INT_TBE);
     usart_enable(USART0);
 
