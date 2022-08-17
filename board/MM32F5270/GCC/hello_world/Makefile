@@ -67,7 +67,7 @@ C_SOURCES += $(HAL_DRIVER_SRC)
 ASM_SOURCES_S =  \
 $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/armgcc/startup_mm32f5277e.S
 
-ASM_SOURCES_S =  \
+ASM_SOURCES_S +=  \
 $(TOP_DIR)/arch/arm/arm-v8m/cortex-m33/gcc/port_s.S
 
 COMPONENTS_SRC = \
