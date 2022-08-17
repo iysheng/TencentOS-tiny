@@ -7,6 +7,8 @@
 
 #include "hal_common.h"
 #include "clock_init.h"
+#include "tos_k.h"
+#include "tos_shell.h"
 
 #include "hal_rcc.h"
 
@@ -27,6 +29,13 @@ void BOARD_InitBootClocks(void)
     /* GPIOB. */
     RCC_EnableAHB1Periphs(RCC_AHB1_PERIPH_GPIOB, true);
     RCC_ResetAHB1Periphs(RCC_AHB1_PERIPH_GPIOB);
+
+    /* 设置 tick 为 100ms */
+    if (SysTick_Config(TOS_CFG_CPU_CLOCK / 10U)){
+       /* capture error */
+       while (1){
+       }
+    }
 }
 
 /* Switch to HSI. */
@@ -98,5 +107,14 @@ void CLOCK_BootToHSE120MHz(void)
     }
 }
 
+void SysTick_Handler(void)
+{
+  if (tos_knl_is_running())
+  {
+    tos_knl_irq_enter();
+    tos_tick_handler();
+    tos_knl_irq_leave();
+  }
+}
 
 /* EOF. */
