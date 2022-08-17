@@ -37,7 +37,7 @@
 
 #define TOS_CFG_CPU_TICK_PER_SECOND     1000u
 
-#define TOS_CFG_CPU_CLOCK               (SystemCoreClock)
+#define TOS_CFG_CPU_CLOCK               (120000000)
 
 #define TOS_CFG_TIMER_AS_PROC           1u
 

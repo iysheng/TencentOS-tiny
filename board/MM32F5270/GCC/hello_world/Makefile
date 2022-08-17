@@ -54,18 +54,17 @@ HAL_DRIVER_SRC =  $(BOARD_SRC) \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/system_mm32f5277e.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_dma.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_exti.c \
-		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_fmc.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_gpio.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_power.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_rcc.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_syscfg.c \
-		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_timer.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_tim.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_uart.c
 
 C_SOURCES += $(HAL_DRIVER_SRC) 
 
 # ASM sources
-ASM_SOURCES =  \
+ASM_SOURCES_S =  \
 $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/armgcc/startup_mm32f5277e.S
 
 ASM_SOURCES_S =  \
