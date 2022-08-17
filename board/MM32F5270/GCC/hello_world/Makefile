@@ -6,6 +6,7 @@
 # Generic Makefile (based on gcc)
 #
 # ChangeLog :
+#	2022-08-17 - Port to MM32F250
 #	2022-04-13 - Port to GD32F310-START
 #	2017-02-10 - Several enhancements + project update mode
 #   2015-07-22 - first version
@@ -41,36 +42,34 @@ KERNEL_SRC =  \
         C_SOURCES += $(KERNEL_SRC)
 
 ARCH_SRC =  \
-        ${wildcard $(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc/*.c} \
-        ${wildcard $(TOP_DIR)/arch/arm/arm-v7m/common/*.c}
+        ${wildcard $(TOP_DIR)/arch/arm/arm-v8m/cortex-m33/gcc/*.c} \
+        ${wildcard $(TOP_DIR)/arch/arm/arm-v8m/common/*.c}
         C_SOURCES += $(ARCH_SRC)
 
-HAL_DRIVER_SRC =  \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/main.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/mcu_init.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/gd32f3x0_it.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/gpio.c \
-		$(TOP_DIR)/board/GD32F310G_START/BSP/Src/usart.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/Source/system_gd32f3x0.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_dbg.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_dma.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_exti.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_fmc.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_gpio.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_misc.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_pmu.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_rcu.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_syscfg.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_timer.c \
-		$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Source/gd32f3x0_usart.c
-        C_SOURCES += $(HAL_DRIVER_SRC) 
+BOARD_SRC = \
+        ${wildcard $(TOP_DIR)/board/MM32F5270/BSP/Src/*.c} \
+        ${wildcard $(TOP_DIR)/board/MM32F5270/GCC/hello_world/main.c}
+
+HAL_DRIVER_SRC =  $(BOARD_SRC) \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/system_mm32f5277e.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_dma.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_exti.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_fmc.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_gpio.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_power.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_rcc.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_syscfg.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_timer.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_uart.c
+
+C_SOURCES += $(HAL_DRIVER_SRC) 
 
 # ASM sources
 ASM_SOURCES =  \
-$(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/Source/GCC/startup_gd32f3x0.s
+$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/armgcc/startup_mm32f5277e.S
 
 ASM_SOURCES_S =  \
-$(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc/port_s.S
+$(TOP_DIR)/arch/arm/arm-v8m/cortex-m33/gcc/port_s.S
 
 COMPONENTS_SRC = \
 		$(TOP_DIR)/components/shell/tos_shell.c \
@@ -101,13 +100,22 @@ BIN = $(CP) -O binary -S
 # CFLAGS
 #######################################
 # cpu
-CPU = -mcpu=cortex-m4
+CPU = -mcpu=cortex-m33
 
 # fpu
 FPU = -mfpu=fpv4-sp-d16
 
 # float-abi
 FLOAT-ABI = -mfloat-abi=hard
+
+# asm extra flags
+ASM_EXTRA_FLAGS = -DDEBUG -D__STARTUP_CLEAR_BSS -D__STARTUP_INITIALIZE_NONCACHEDATA -fno-common -ffreestanding -fno-builtin -mapcs -std=gnu99
+
+# C extra flags
+C_EXTRA_FLAGS = -MMD -MP -fno-common -ffreestanding -fno-builtin -mapcs -std=gnu99
+
+# C++ extra flags
+CXX_EXTRA_FLAGS = -MMD -MP -fno-common -ffreestanding -fno-builtin -mapcs -fno-rtti -fno-exceptions
 
 # mcu
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
@@ -118,7 +126,7 @@ AS_DEFS =
 
 # C defines
 C_DEFS =  \
--DGD32F310
+-DMM32F5270
 
 # AS includes
 AS_INCLUDES = 
@@ -128,20 +136,21 @@ KERNEL_INC = \
         -I $(TOP_DIR)/kernel/core/include  \
         -I $(TOP_DIR)/kernel/pm/include  \
         -I $(TOP_DIR)/kernel/hal/include \
-        -I $(TOP_DIR)/arch/arm/arm-v7m/common/include \
-        -I $(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc \
-        -I $(TOP_DIR)/board/GD32F310G_START/TOS-CONFIG
+        -I $(TOP_DIR)/arch/arm/arm-v8m/common/include \
+        -I $(TOP_DIR)/arch/arm/arm-v8m/cortex-m33/gcc \
+        -I $(TOP_DIR)/board/MM32F5270/TOS-CONFIG
 C_INCLUDES += $(KERNEL_INC)
 
 CMSIS_INC = \
         -I $(TOP_DIR)/osal/cmsis_os \
-        -I $(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS
+		-I $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527 \
+		-I $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/CMSIS/Include
+
 C_INCLUDES += $(CMSIS_INC)
 
 HAL_DRIVER_INC =  \
-		-I $(TOP_DIR)/board/GD32F310G_START/BSP/Inc \
-		-I $(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/CMSIS/GD/GD32F3x0/Include \
-		-I $(TOP_DIR)/platform/vendor_bsp/gd/GD32F3x0_Firmware_Library/GD32F3x0_standard_peripheral/Include
+		-I $(TOP_DIR)/board/MM32F5270/BSP/Inc \
+		-I $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers
 C_INCLUDES += $(HAL_DRIVER_INC)
 
 COMPONENTS_INC = \
@@ -149,9 +158,9 @@ COMPONENTS_INC = \
 C_INCLUDES += $(COMPONENTS_INC)
 
 # compile gcc flags
-ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+ASFLAGS = $(MCU) $(ASM_EXTRA_FLAGS) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CFLAGS = $(MCU) $(C_EXTRA_FLAGS) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
@@ -166,7 +175,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = gd32f310_flash.ld
+LDSCRIPT = $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/armgcc/linker/mm32f5277e_flash.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 

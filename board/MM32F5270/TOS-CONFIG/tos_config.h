@@ -1,7 +1,7 @@
 #ifndef _TOS_CONFIG_H_
 #define  _TOS_CONFIG_H_
 
-#include "gd32f3x0.h"
+#include "mm32f5277e.h"
 
 #define TOS_CFG_TASK_PRIO_MAX           10u
 
