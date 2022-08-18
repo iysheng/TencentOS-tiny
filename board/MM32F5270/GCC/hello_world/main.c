@@ -15,7 +15,10 @@ static char gs_cmd_buffer[32];
 
 __attribute__ ((__weak__)) void application_entry(void *arg)
 {
+    int counts = 0;
+
     while (1) {
+        printf("MM32F527:%d\n", counts++);
         tos_task_delay(1000);
     }
 }
