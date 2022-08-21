@@ -24,7 +24,7 @@ TARGET = TencentOS_tiny
 # debug build?
 DEBUG = 1
 # optimization
-OPT = -O2
+OPT = -O0
 
 TOP_DIR = ../../../..
 #######################################
@@ -108,7 +108,7 @@ FPU = -mfpu=fpv4-sp-d16
 FLOAT-ABI = -mfloat-abi=hard
 
 # asm extra flags
-ASM_EXTRA_FLAGS = -DDEBUG -D__STARTUP_CLEAR_BSS -D__STARTUP_INITIALIZE_NONCACHEDATA -fno-common -ffreestanding -fno-builtin -mapcs -std=gnu99
+ASM_EXTRA_FLAGS = -DDEBUG -D__STARTUP_CLEAR_BSS -D__STARTUP_INITIALIZE_NONCACHEDATA -g -fno-common -ffreestanding -fno-builtin -mapcs -std=gnu99
 
 # C extra flags
 C_EXTRA_FLAGS = -MMD -MP -fno-common -ffreestanding -fno-builtin -mapcs -std=gnu99
@@ -179,7 +179,7 @@ LDSCRIPT = $(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/armgcc/linker/mm32
 # libraries
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
-LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) -specs=nosys.specs -specs=nano.specs -fno-common -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -mthumb -mapcs -Xlinker --gc-sections -Xlinker -static -Xlinker -z -Xlinker muldefs -Xlinker -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin

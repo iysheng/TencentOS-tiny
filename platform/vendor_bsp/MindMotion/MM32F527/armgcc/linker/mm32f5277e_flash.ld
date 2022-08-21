@@ -19,8 +19,8 @@ __ROM_SIZE = 0x00040000;
     <o1> RAM Size (in Bytes) <0x0-0xFFFFFFFF:8>
   </h>
  -----------------------------------------------------------------------------*/
-__RAM_BASE = 0x20000000;
-__RAM_SIZE = 0x00008000;
+__RAM_BASE = 0x30000000;
+__RAM_SIZE = 0x0001C000;
 
 /*--------------------- Stack / Heap Configuration ----------------------------
   <h> Stack / Heap Configuration
@@ -28,8 +28,8 @@ __RAM_SIZE = 0x00008000;
     <o1> Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
   </h>
   -----------------------------------------------------------------------------*/
-__STACK_SIZE = 0x00002000;
-__HEAP_SIZE  = 0x00002000;
+__STACK_SIZE = 0x00001000;
+__HEAP_SIZE  = 0x00001000;
 
 /*
  *-------------------- <<< end of configuration section >>> -------------------
