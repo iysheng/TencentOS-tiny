@@ -19,8 +19,8 @@ __ROM_SIZE = 0x00040000;
     <o1> RAM Size (in Bytes) <0x0-0xFFFFFFFF:8>
   </h>
  -----------------------------------------------------------------------------*/
-__RAM_BASE = 0x30000000;
-__RAM_SIZE = 0x0001C000;
+__RAM_BASE = 0x20000000;
+__RAM_SIZE = 0x00008000;
 
 /*--------------------- Stack / Heap Configuration ----------------------------
   <h> Stack / Heap Configuration
@@ -28,8 +28,8 @@ __RAM_SIZE = 0x0001C000;
     <o1> Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
   </h>
   -----------------------------------------------------------------------------*/
-__STACK_SIZE = 0x00001000;
-__HEAP_SIZE  = 0x00001000;
+__STACK_SIZE = 0x00002000;
+__HEAP_SIZE  = 0x00002000;
 
 /*
  *-------------------- <<< end of configuration section >>> -------------------
@@ -84,6 +84,7 @@ SECTIONS
 {
   .text :
   {
+	_stext = .;
     KEEP(*(.vectors))
     *(.text*)
 
@@ -169,6 +170,7 @@ SECTIONS
    * which must be 4byte aligned
    */
   __etext = ALIGN (4);
+  _etext = ALIGN (4);
 
   .data : AT (__etext)
   {
@@ -269,10 +271,12 @@ SECTIONS
   .stack (ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE - __STACKSEAL_SIZE) (COPY) :
   {
     . = ALIGN(8);
+	_sstack = .;
     __StackLimit = .;
     . = . + __STACK_SIZE;
     . = ALIGN(8);
     __StackTop = .;
+	_estack = .;
   } > RAM
   PROVIDE(__stack = __StackTop);
 

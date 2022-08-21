@@ -7,18 +7,19 @@
 
 #include "board_init.h"
 #include "tos_shell.h"
+#include "hal_gpio.h"
 
-#define APPLICATION_TASK_STK_SIZE       0x100
+#define APPLICATION_TASK_STK_SIZE       0x1000
 k_task_t application_task;
 uint8_t application_task_stk[APPLICATION_TASK_STK_SIZE];
 static char gs_cmd_buffer[32];
 
 __attribute__ ((__weak__)) void application_entry(void *arg)
 {
-    int counts = 0;
-
     while (1) {
-        printf("MM32F527:%d\n", counts++);
+        GPIO_WriteBit(GPIOI, GPIO_PIN_0, 0);
+        tos_task_delay(1000);
+        GPIO_WriteBit(GPIOI, GPIO_PIN_0, 1);
         tos_task_delay(1000);
     }
 }
@@ -29,12 +30,16 @@ static void board_shell_output_t(const char ch)
     {
         while ( 0u == (UART_STATUS_TX_EMPTY & UART_GetStatus(BOARD_DEBUG_UART_PORT)) )
         {}
-        UART_PutData(BOARD_DEBUG_UART_PORT, '\n');
+        UART_PutData(BOARD_DEBUG_UART_PORT, '\r');
     }
     while ( 0u == (UART_STATUS_TX_EMPTY & UART_GetStatus(BOARD_DEBUG_UART_PORT)) )
     {}
     UART_PutData(BOARD_DEBUG_UART_PORT, ch);
 }
+
+/*
+ * set PI0 to low
+ * */
 
 /*
  * Functions.
@@ -43,10 +48,8 @@ int main(void)
 {
     BOARD_Init();
 
-    printf("hello, world\r\n");
-
     tos_knl_init();
-    tos_task_create(&application_task, "application_task", application_entry, NULL, 4, application_task_stk, APPLICATION_TASK_STK_SIZE, 0);
+    tos_task_create(&application_task, "main_task", application_entry, NULL, 1, application_task_stk, APPLICATION_TASK_STK_SIZE, 0);
     tos_shell_init(gs_cmd_buffer, sizeof(gs_cmd_buffer), board_shell_output_t, NULL);
     tos_knl_start();
 

@@ -169,9 +169,16 @@ Reset_Handler:
                 ldr      r0, =__INITIAL_SP
                 msr      psp, r0
 
+                #ifdef STACK_LIMIT_CHECK
                 ldr      r0, =__STACK_LIMIT
                 msr      msplim, r0
                 msr      psplim, r0
+                #else
+                ldr      r0, =0xE000ED14
+                ldr      r1, [r0]
+                orr      r1, #0x400
+                str      r1, [r0]
+                #endif
 
                 #if defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
                 ldr      r0, =__STACK_SEAL

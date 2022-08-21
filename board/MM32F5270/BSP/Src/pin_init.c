@@ -25,6 +25,13 @@ void BOARD_InitPins(void)
     gpio_init.Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOB, &gpio_init);
     GPIO_PinAFConf(GPIOB, gpio_init.Pins, GPIO_AF_7);
+
+    /* PI0 - GPIO. */
+    gpio_init.Pins  = GPIO_PIN_0;
+    gpio_init.PinMode  = GPIO_PinMode_Out_PushPull;
+    gpio_init.Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOI, &gpio_init);
+    GPIO_WriteBit(GPIOI, GPIO_PIN_0, 1);
 }
 
 /* EOF. */

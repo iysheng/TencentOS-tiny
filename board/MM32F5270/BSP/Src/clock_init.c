@@ -30,12 +30,9 @@ void BOARD_InitBootClocks(void)
     RCC_EnableAHB1Periphs(RCC_AHB1_PERIPH_GPIOB, true);
     RCC_ResetAHB1Periphs(RCC_AHB1_PERIPH_GPIOB);
 
-    /* 设置 tick 为 100ms */
-    if (SysTick_Config(TOS_CFG_CPU_CLOCK / 10U)){
-       /* capture error */
-       while (1){
-       }
-    }
+    /* GPIOI. */
+    RCC_EnableAHB1Periphs(RCC_AHB1_PERIPH_GPIOI, true);
+    RCC_ResetAHB1Periphs(RCC_AHB1_PERIPH_GPIOI);
 }
 
 /* Switch to HSI. */
