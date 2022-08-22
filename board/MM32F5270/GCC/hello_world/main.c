@@ -16,6 +16,7 @@ static char gs_cmd_buffer[32];
 
 __attribute__ ((__weak__)) void application_entry(void *arg)
 {
+    NVIC_EnableIRQ(BOARD_DEBUG_UART_IRQ);
     while (1) {
         GPIO_WriteBit(GPIOI, GPIO_PIN_0, 0);
         tos_task_delay(1000);

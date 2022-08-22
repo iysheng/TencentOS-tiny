@@ -8,6 +8,7 @@
 
 #include "board_init.h"
 #include "hal_gpio.h"
+#include "tos_shell.h"
 
 /*
 * Definitions.
@@ -41,7 +42,10 @@ void BOARD_InitDebugConsole(void)
     uart_init.XferMode      = UART_XferMode_RxTx;
     uart_init.HwFlowControl = UART_HwFlowControl_None;
     UART_Init(BOARD_DEBUG_UART_PORT, &uart_init);
+    UART_EnableInterrupts(BOARD_DEBUG_UART_PORT, UART_ISR_RXINTF_MASK, true);
     UART_Enable(BOARD_DEBUG_UART_PORT, true);
+
+    NVIC_SetPriority(BOARD_DEBUG_UART_IRQ, (1UL << __NVIC_PRIO_BITS) - 2UL);
 }
 
 #if defined(__ARMCC_VERSION)
@@ -163,5 +167,13 @@ int fgetc(FILE *f)
 }
 
 #endif
-
+void UART1_IRQHandler(void)
+{
+    uint8_t data = 0;
+    if (UART_ISR_RXINTF_MASK & UART_GetInterruptStatus(BOARD_DEBUG_UART_PORT))
+    {
+        data = UART_GetData(BOARD_DEBUG_UART_PORT);
+        tos_shell_input_byte(data);
+    }
+}
 /* EOF. */
