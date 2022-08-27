@@ -353,7 +353,7 @@ void ADC_EnableSeqSlot(ADC_Type * ADCx, uint32_t slot_idx, uint32_t channel)
     {
         ADCx->CHANY1 = (ADCx->CHANY1 & ~( 0xFF << ((offset - 8u) * 4u) )) | ( (channel & 0xF) << ((offset - 8u) * 4u) );
     }
-    ADCx->ANYCFG = (ADCx->ANYCFG & ~( 0x01 << (offset + 8u) )) | ( (channel & 0x10) << (offset + 8u) );
+    ADCx->ANYCFG = (ADCx->ANYCFG & ~( 0x01 << (offset + 8u) )) | ( (channel & 0x10 ? 0x01 : 0x00) << (offset + 8u) );
 
 }
 
