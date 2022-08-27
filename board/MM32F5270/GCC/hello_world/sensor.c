@@ -86,10 +86,10 @@ void sensor_hw_init(void)
     ADC_Enable(ADC1, true); /* power on the converter. */
 
     ADC_ResetAllSlot(ADC1);
-    ADC_EnableSeqSlot(ADC1, 0, SENSOR_THERMAL_CHANNEL);
+    ADC_EnableSeqSlot(ADC1, 0, SENSOR_BRIGHTNESS_CHANNEL);
+    ADC_SetChnSampleTime(ADC1, SENSOR_BRIGHTNESS_CHANNEL, ADC_SampleTime_Alt7);
+    ADC_EnableSeqSlot(ADC1, 1, SENSOR_THERMAL_CHANNEL);
     ADC_SetChnSampleTime(ADC1, SENSOR_THERMAL_CHANNEL, ADC_SampleTime_Alt7);
-    ADC_EnableSeqSlot(ADC1, 1, SENSOR_BRIGHTNESS_CHANNEL);
-    ADC_SetChnSampleTime(ADC1, SENSOR_BRIGHTNESS_CHANNEL, ADC_SampleTime_Alt8);
 
     /* set channel sample time. */
 	ADC_DoAutoCalib(ADC1);
@@ -131,7 +131,7 @@ uint32_t app_adc_run_conv(uint32_t channel)
 }
 void sensor_entry(void *arg)
 {
-	uint32_t adc_value;
+	uint32_t thermal_value, convert_tmp;
     sensor_hw_init();
     tos_shell_printf("Hello Sensor app\n");
     while (1) {
@@ -140,7 +140,28 @@ void sensor_entry(void *arg)
         //adc_value = app_adc_run_conv(SENSOR_THERMAL_CHANNEL);
         while (false == app_dma_xfer_done)
             tos_task_delay(1000);
-        tos_shell_printf("Sensor thermal value dma=%u %u\n", app_dma_buff_to[0] & 0xfff, app_dma_buff_to[1] & 0xfff);
+app_dma_buff_to[0] &= 0xfff;
+app_dma_buff_to[1] &= 0xfff;
+        tos_shell_printf("Sensor thermal&brightness value raw=%u %u\n", app_dma_buff_to[0], app_dma_buff_to[1]);
+        convert_tmp = 4095 * 1000 / (app_dma_buff_to[0]) - 1000;
+        convert_tmp /= 1000;
+        thermal_value = convert_tmp * convert_tmp * 9 - 481 * convert_tmp + 6561;
+        //thermal_value /= 100;
+        tos_shell_printf("Sensor thermal=%u.%u convert_tmp=%u\n", thermal_value / 100, thermal_value % 100, convert_tmp );
+		/* lux = (16 - r) * 10
+		 * r = 4095 / value - 1
+		 * */
+		if (app_dma_buff_to[1])
+		{
+        convert_tmp = 4095 * 1000 / (app_dma_buff_to[1]) - 1000;
+        convert_tmp /= 1000;
+        thermal_value = 10 * (16 - convert_tmp);
+		}
+		else
+		{
+        thermal_value = 0;
+		}
+        tos_shell_printf("Brightness value=%ulux \n", thermal_value);
         app_dma_xfer_done = false;
     }
 }
