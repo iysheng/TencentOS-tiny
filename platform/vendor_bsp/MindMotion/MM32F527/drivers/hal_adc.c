@@ -342,7 +342,8 @@ void ADC_EnableSeqSlot(ADC_Type * ADCx, uint32_t slot_idx, uint32_t channel)
     /* enable any channel sequence mode. */
     ADCx->ANYCR |= ADC_ANYCR_CHANYMDEN_MASK;
     /* select the any slots number. */
-    ADCx->ANYCFG = ADC_ANYCFG_CHANYNUM(slot_idx);
+    ADCx->ANYCFG &= ~ADC_ANYCFG_CHANYNUM_MASK;
+    ADCx->ANYCFG |= ADC_ANYCFG_CHANYNUM(slot_idx);
     uint32_t offset = slot_idx;
     /* fill the channel into each slot. */
     if (slot_idx < 8u)
