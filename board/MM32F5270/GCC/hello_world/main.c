@@ -8,6 +8,7 @@
 #include "board_init.h"
 #include "tos_shell.h"
 #include "hal_gpio.h"
+#include "sensor_base.h"
 
 #define APPLICATION_TASK_STK_SIZE       0x1000
 k_task_t application_task;
@@ -17,6 +18,7 @@ static char gs_cmd_buffer[32];
 __attribute__ ((__weak__)) void application_entry(void *arg)
 {
     NVIC_EnableIRQ(BOARD_DEBUG_UART_IRQ);
+    sensor_app_init(NULL);
     while (1) {
         GPIO_WriteBit(GPIOI, GPIO_PIN_0, 0);
         tos_task_delay(1000);

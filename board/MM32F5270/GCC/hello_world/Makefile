@@ -48,7 +48,7 @@ ARCH_SRC =  \
 
 BOARD_SRC = \
         ${wildcard $(TOP_DIR)/board/MM32F5270/BSP/Src/*.c} \
-        ${wildcard $(TOP_DIR)/board/MM32F5270/GCC/hello_world/main.c}
+        ${wildcard $(TOP_DIR)/board/MM32F5270/GCC/hello_world/*.c}
 
 HAL_DRIVER_SRC =  $(BOARD_SRC) \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/system_mm32f5277e.c \
