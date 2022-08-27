@@ -55,6 +55,7 @@ HAL_DRIVER_SRC =  $(BOARD_SRC) \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_dma.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_exti.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_gpio.c \
+		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_adc.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_power.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_rcc.c \
 		$(TOP_DIR)/platform/vendor_bsp/MindMotion/MM32F527/drivers/hal_syscfg.c \

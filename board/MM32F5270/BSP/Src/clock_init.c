@@ -33,6 +33,17 @@ void BOARD_InitBootClocks(void)
     /* GPIOI. */
     RCC_EnableAHB1Periphs(RCC_AHB1_PERIPH_GPIOI, true);
     RCC_ResetAHB1Periphs(RCC_AHB1_PERIPH_GPIOI);
+
+    /* GPIOF. */
+    RCC_EnableAHB1Periphs(RCC_AHB1_PERIPH_GPIOF, true);
+    RCC_ResetAHB1Periphs(RCC_AHB1_PERIPH_GPIOF);
+
+    /* ADC1. */
+    RCC_EnableAPB2Periphs(RCC_APB2_PERIPH_ADC1, true);
+    RCC_ResetAPB2Periphs(RCC_APB2_PERIPH_ADC1);
+
+    /* DMA1. */
+    RCC_EnableAHB1Periphs(RCC_AHB1_PERIPH_DMA1, true);
 }
 
 /* Switch to HSI. */
@@ -56,7 +67,6 @@ void CLOCK_ResetToDefault(void)
     RCC->CIR = 0u; /* disable interrupts. */
 }
 
-/* Enable the PLL1 and use the HSE as input clock source. */
 void CLOCK_BootToHSE120MHz(void)
 {
     RCC->APB1ENR |= (1u << 28u); /* enable PWR/DBG. */
@@ -71,11 +81,11 @@ void CLOCK_BootToHSE120MHz(void)
     RCC->PLL1CFGR = RCC_PLL1CFGR_PLL1SRC(1) /* (pllsrc == 1) ? HSE : HSI. */
                  | RCC_PLL1CFGR_PLL1MUL(19) /* (12 * (19 + 1)) / 2 = 120. */
                  | RCC_PLL1CFGR_PLL1DIV(1)
-                 | RCC_PLL1CFGR_PLL1LDS(1)
+                 | RCC_PLL1CFGR_PLL1LDS(7)
                  | RCC_PLL1CFGR_PLL1ICTRL(3)
                  ;
 
-    /* Enable PLL1. */
+    /* Enable PLL. */
     RCC->CR |= RCC_CR_PLL1ON_MASK;
     while((RCC->CR & RCC_CR_PLL1RDY_MASK) == 0)
     {
@@ -93,7 +103,9 @@ void CLOCK_BootToHSE120MHz(void)
               | RCC_CFGR_PPRE2(0x4)  /* div=2 for APB2 freq. */
               | RCC_CFGR_MCO(7)    /* use PLL1 as output. */
               ;
-
+    RCC_SetADCClockDiv(ADC1, 0); /* ADC clock div 2. */
+    /* Setup the dividers for ADC calibration clock. */
+    RCC_SetADCCalibClockDiv(ADC1, 38); /* ADC calibration clock div 40. */
     /* Switch the system clock source to PLL. */
     RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW_MASK) | RCC_CFGR_SW(2); /* use PLL as SYSCLK */
 
